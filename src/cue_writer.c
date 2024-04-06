@@ -26,7 +26,7 @@ int cyanrip_cue_init(cyanrip_ctx *ctx)
                                       &crip_fmt_info[ctx->settings.outputs[i]],
                                       NULL);
 
-        ctx->cuefile[i] = av_fopen_utf8(cuefile, "w");
+        ctx->cuefile[i] = fopen(cuefile, "w");
 
         if (!ctx->cuefile[i]) {
             cyanrip_log(ctx, 0, "Couldn't open path \"%s\" for writing: %s!\n"
