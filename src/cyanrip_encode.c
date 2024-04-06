@@ -347,9 +347,7 @@ static int init_filtering(cyanrip_ctx *ctx, cyanrip_filt_ctx *s,
             goto fail;
         }
 
-        static const int64_t out_channel_layouts[] = { AV_CH_LAYOUT_STEREO, -1 };
-        ret = av_opt_set_int_list(s->buffersink_ctx, "channel_layouts", out_channel_layouts, -1,
-                                  AV_OPT_SEARCH_CHILDREN);
+        ret = av_opt_set(s->buffersink_ctx, "ch_layouts", "stereo", AV_OPT_SEARCH_CHILDREN);
         if (ret < 0) {
             cyanrip_log(ctx, 0, "Error setting filter channel layout: %s!\n", av_err2str(ret));
             goto fail;
