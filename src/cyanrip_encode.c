@@ -812,7 +812,7 @@ int cyanrip_end_track_encoding(cyanrip_enc_ctx **s)
 
     swr_free(&ctx->swr);
 
-    avcodec_close(ctx->out_avctx);
+    avcodec_free_context(&ctx->out_avctx);
 
     if (ctx->avf)
         avio_closep(&ctx->avf->pb);
@@ -820,7 +820,6 @@ int cyanrip_end_track_encoding(cyanrip_enc_ctx **s)
 
     av_buffer_unref(&ctx->fifo);
     av_buffer_unref(&ctx->packet_fifo);
-    av_free(ctx->out_avctx);
     av_packet_free(&ctx->cover_art_pkt);
 
     int status = ctx->status;
