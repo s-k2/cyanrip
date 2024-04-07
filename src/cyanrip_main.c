@@ -1796,7 +1796,7 @@ int main(int argc, char **argv)
     if (cyanrip_ctx_init(&ctx, &settings))
         return 1;
 
-    if (!settings.offset && !offset_set &&
+    if (!settings.offset && !offset_set && !settings.print_info_only &&
         !find_drive_offset_range && (ctx->rcap & CDIO_DRIVE_CAP_READ_ISRC)) {
         cyanrip_log(ctx, 0, "Offset is unset! To continue with an offset of 0, run with -s 0!\n");
         goto end;
