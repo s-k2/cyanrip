@@ -20,6 +20,10 @@
 #include <getopt.h>
 #include <sys/stat.h>
 
+#ifdef _WIN32
+#include <locale.h>
+#endif
+
 #include <libavutil/bprint.h>
 #include <libavutil/avstring.h>
 #include <libavutil/time.h>
@@ -1386,6 +1390,10 @@ int main(int argc, char **argv)
 {
     cyanrip_ctx *ctx = NULL;
     cyanrip_settings settings = { 0 };
+
+#ifdef _WIN32
+    setlocale(LC_ALL, ".UTF8");
+#endif
 
     av_log_set_level(AV_LOG_QUIET);
 
