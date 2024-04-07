@@ -422,6 +422,7 @@ int cyanrip_create_dec_ctx(cyanrip_ctx *ctx, cyanrip_dec_ctx **s,
     if ((ctx->settings.decode_hdcd) ||
         (ctx->settings.deemphasis && t->preemphasis) ||
         (ctx->settings.force_deemphasis)) {
+
         ret = init_filtering(ctx, &dec_ctx->filt,
                              ctx->settings.decode_hdcd,
                              (ctx->settings.deemphasis && t->preemphasis) || ctx->settings.force_deemphasis,
@@ -491,10 +492,19 @@ static int filter_frame(cyanrip_ctx *ctx, cyanrip_enc_ctx **enc_ctx,
     if (!dec_ctx->filt.buffersrc_ctx)
         return push_frame_to_encs(ctx, enc_ctx, num_enc, frame);
 
+
     ret = av_buffersrc_add_frame_flags(dec_ctx->filt.buffersrc_ctx, frame,
                                        AV_BUFFERSRC_FLAG_NO_CHECK_FORMAT |
                                        AV_BUFFERSRC_FLAG_KEEP_REF);
     if (ret < 0) {
+        cyanrip_log(ctx, 0, "Error filtering frame: %s!\n", av_err2str(ret));
+        goto fail;
+    }
+
+    ret = avfilter_graph_request_oldest(dec_ctx->filt.graph);
+    if (ret == AVERROR_EOF) {
+        return push_frame_to_encs(ctx, enc_ctx, num_enc, NULL);
+    } else if (ret < 0) {
         cyanrip_log(ctx, 0, "Error filtering frame: %s!\n", av_err2str(ret));
         goto fail;
     }
