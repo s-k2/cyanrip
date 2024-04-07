@@ -368,7 +368,7 @@ int cyanrip_log_init(cyanrip_ctx *ctx)
                                       &crip_fmt_info[ctx->settings.outputs[i]],
                                       NULL);
 
-        ctx->logfile[i] = fopen(logfile, "w+");
+        ctx->logfile[i] = fopen(logfile, "wb+");
 
         if (!ctx->logfile[i]) {
             cyanrip_log(ctx, 0, "Couldn't open path \"%s\" for writing: %s!\n"
