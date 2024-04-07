@@ -1136,7 +1136,8 @@ int cyanrip_init_track_encoding(cyanrip_ctx *ctx, cyanrip_enc_ctx **enc_ctx,
             goto fail;
     }
 
-    av_freep(&filename);
+    av_free(ffpath);
+    av_free(filename);
 
     pthread_create(&s->thread, NULL, cyanrip_track_encoding, s);
 
