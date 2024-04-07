@@ -1935,9 +1935,9 @@ int main(int argc, char **argv)
 
     /* Create log file */
     if (!ctx->settings.print_info_only) {
-        if (cyanrip_log_init(ctx) < 0)
+        if (cyanrip_log_init(ctx))
             return 1;
-        if (cyanrip_cue_init(ctx) < 0)
+        if (cyanrip_cue_init(ctx))
             return 1;
     } else {
         cyanrip_log(ctx, 0, "Log(s) will be written to:\n");
